@@ -5,6 +5,15 @@ namespace value_object_demo
 {
     public class ValueObjectSpec
     {
+        public class Foo : ValueObject
+        {
+            public override IEnumerable<object> GetEqualityComponents()
+            {
+                yield return (byte)255;
+                yield return (byte)0;
+                yield return (byte)0;
+            }
+        }
         public abstract class WhenEvaluatingEquality
         {
             public abstract ValueObject Create();
@@ -73,6 +82,18 @@ namespace value_object_demo
 
                 (nullObject1 == nullObject2).Should().BeTrue();
                 (nullObject2 != nullObject1).Should().BeFalse();
+            }
+
+            [Fact]
+            public void WithOtherType_ThenReturnFalse()
+            {
+                var valueObject1 = Create();
+                var valueObject2 = new Foo();
+
+                valueObject1.Should().NotBe(valueObject2);
+
+                (valueObject1 == valueObject2).Should().BeFalse();
+                (valueObject1 != valueObject2).Should().BeTrue();
             }
         }
     }

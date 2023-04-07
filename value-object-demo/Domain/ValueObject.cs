@@ -4,6 +4,11 @@ public abstract class ValueObject
 {
     public override bool Equals(object? other)
     {
+        if (other is null || GetType() != other.GetType())
+        {
+            return false;
+        }
+
         return GetEqualityComponents()
             .SequenceEqual(((ValueObject)other)
                 .GetEqualityComponents());
