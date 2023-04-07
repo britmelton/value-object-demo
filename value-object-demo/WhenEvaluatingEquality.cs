@@ -47,6 +47,22 @@ namespace value_object_demo
                 (valueObject1 != valueObject2).Should().BeTrue();
 
             }
+
+            [Fact]
+            public void WithNullReference_ThenReturnFalse()
+            {
+                var valueObject1 = Create();
+                ValueObject? nullObject = null;
+
+                valueObject1.Should().NotBe(nullObject);
+                nullObject.Should().NotBe(valueObject1);
+
+                (valueObject1 == null).Should().BeFalse();
+                (valueObject1 != null).Should().BeTrue();
+
+                (null == valueObject1).Should().BeFalse();
+                (null != valueObject1).Should().BeTrue();
+            }
         }
     }
 }

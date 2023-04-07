@@ -11,12 +11,17 @@ public abstract class ValueObject
 
     public abstract IEnumerable<object> GetEqualityComponents();
 
-    public static bool operator == (ValueObject left, ValueObject right)
+    public static bool operator == (ValueObject? left, ValueObject? right)
     {
+        if (left is null || right is null)
+        {
+            return false;
+        }
+
         return left.Equals(right);
     }
 
-    public static bool operator !=(ValueObject left, ValueObject right)
+    public static bool operator !=(ValueObject? left, ValueObject? right)
     {
         return !(left == right);
     }
