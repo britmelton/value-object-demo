@@ -43,6 +43,9 @@ namespace value_object_demo
 
                 valueObject2.Should().NotBe(valueObject1);
 
+                (valueObject1 == valueObject2).Should().BeFalse();
+                (valueObject1 != valueObject2).Should().BeTrue();
+
             }
         }
     }
