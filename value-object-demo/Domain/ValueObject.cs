@@ -10,4 +10,14 @@ public abstract class ValueObject
     }
 
     public abstract IEnumerable<object> GetEqualityComponents();
+
+    public static bool operator == (ValueObject left, ValueObject right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ValueObject left, ValueObject right)
+    {
+        return !(left == right);
+    }
 }

@@ -17,6 +17,9 @@ namespace value_object_demo
                 var valueObject2 = valueObject1;
 
                 valueObject2.Should().BeSameAs(valueObject1);
+
+                (valueObject1 == valueObject2).Should().BeTrue();
+                (valueObject1 != valueObject2).Should().BeFalse();
             }
 
             [Fact]
@@ -27,6 +30,9 @@ namespace value_object_demo
 
                 valueObject2.Should().Be(valueObject1);
                 valueObject2.Should().NotBeSameAs(valueObject1);
+
+                (valueObject1 == valueObject2).Should().BeTrue();
+                (valueObject1 != valueObject2).Should().BeFalse();
             }
 
             [Fact]
@@ -36,6 +42,7 @@ namespace value_object_demo
                 var valueObject2 = CreateOther();
 
                 valueObject2.Should().NotBe(valueObject1);
+
             }
         }
     }
