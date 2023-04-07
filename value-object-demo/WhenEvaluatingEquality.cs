@@ -45,7 +45,6 @@ namespace value_object_demo
 
                 (valueObject1 == valueObject2).Should().BeFalse();
                 (valueObject1 != valueObject2).Should().BeTrue();
-
             }
 
             [Fact]
@@ -62,6 +61,18 @@ namespace value_object_demo
 
                 (null == valueObject1).Should().BeFalse();
                 (null != valueObject1).Should().BeTrue();
+            }
+
+            [Fact]
+            public void WithTwoNullReferences_ThenReturnTrue()
+            {
+                ValueObject? nullObject1 = null;
+                ValueObject? nullObject2 = null;
+
+                nullObject1.Should().Be(nullObject2);
+
+                (nullObject1 == nullObject2).Should().BeTrue();
+                (nullObject2 != nullObject1).Should().BeFalse();
             }
         }
     }
