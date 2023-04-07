@@ -1,6 +1,5 @@
-using System.Drawing;
-using System.Runtime.InteropServices;
 using FluentAssertions;
+using value_object_demo.Domain;
 
 namespace value_object_demo
 {
@@ -9,6 +8,7 @@ namespace value_object_demo
         public abstract class WhenEvaluatingEquality
         {
             public abstract ValueObject Create();
+            public abstract ValueObject CreateOther();
 
             [Fact]
             public void WithSameReference_ThenReturnTrue()
@@ -28,50 +28,15 @@ namespace value_object_demo
                 valueObject2.Should().Be(valueObject1);
                 valueObject2.Should().NotBeSameAs(valueObject1);
             }
-        }
-    }
 
-    public abstract class ValueObject
-    {
-        public override bool Equals(object? other)
-        {
-            return GetEqualityComponents()
-                .SequenceEqual(((ValueObject) other)
-                    .GetEqualityComponents());
-        }
-
-        public abstract IEnumerable<object> GetEqualityComponents();
-    }
-
-    public class ColorSpec
-    {
-        public class WhenEvaluatingEquality : ValueObjectSpec.WhenEvaluatingEquality
-        {
-            public override ValueObject Create()
+            [Fact]
+            public void WithDifferentStructure_ThenReturnFalse()
             {
-                return new RgbColor(255, 0, 0);
+                var valueObject1 = Create();
+                var valueObject2 = CreateOther();
+
+                valueObject2.Should().NotBe(valueObject1);
             }
-        }
-    }
-
-    public class RgbColor : ValueObject
-    {
-        public byte Red { get; }
-        public byte Green { get; }
-        public byte Blue { get; }
-
-        public RgbColor(byte red, byte green, byte blue)
-        {
-            Red = red;
-            Green = green;
-            Blue = blue;
-        }
-
-        public override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Red;
-            yield return Green;
-            yield return Blue;
         }
     }
 }
