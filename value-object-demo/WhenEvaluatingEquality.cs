@@ -8,6 +8,8 @@ namespace value_object_demo
     {
         public abstract class WhenEvaluatingEquality
         {
+            public abstract ValueObject Create();
+
             [Fact]
             public void WithSameReference_ThenReturnTrue()
             {
@@ -17,13 +19,28 @@ namespace value_object_demo
                 valueObject2.Should().BeSameAs(valueObject1);
             }
 
-            public abstract ValueObject Create();
+            [Fact]
+            public void WithSameValues_ThenReturnTrue()
+            {
+                var valueObject1 = Create();
+                var valueObject2 = Create();
+
+                valueObject2.Should().Be(valueObject1);
+                valueObject2.Should().NotBeSameAs(valueObject1);
+            }
         }
     }
 
     public abstract class ValueObject
     {
+        public override bool Equals(object? other)
+        {
+            return GetEqualityComponents()
+                .SequenceEqual(((ValueObject) other)
+                    .GetEqualityComponents());
+        }
 
+        public abstract IEnumerable<object> GetEqualityComponents();
     }
 
     public class ColorSpec
@@ -39,15 +56,22 @@ namespace value_object_demo
 
     public class RgbColor : ValueObject
     {
-        private byte Red { get; }
-        private byte Green { get; }
-        private byte Blue { get; }
+        public byte Red { get; }
+        public byte Green { get; }
+        public byte Blue { get; }
 
         public RgbColor(byte red, byte green, byte blue)
         {
             Red = red;
             Green = green;
             Blue = blue;
+        }
+
+        public override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Red;
+            yield return Green;
+            yield return Blue;
         }
     }
 }
