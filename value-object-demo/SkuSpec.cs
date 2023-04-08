@@ -42,12 +42,29 @@ namespace value_object_demo
             [InlineData("wser256")]
             [InlineData("145")]
             [InlineData("!@#256")]
+            [InlineData(null)]
+            [InlineData("")]
             public void WithoutThreeStartLetters_ThenThrowArgumentException(string value)
             {
                 //write action (anonymous function that does thing)
                 Action createInvalidSku = () => new Sku(value);
                 createInvalidSku.Should().Throw<ArgumentException>();
             }
+
+            [Theory]
+            [InlineData("wss25")]
+            [InlineData("wsr2565")]
+            [InlineData("skd")]
+            [InlineData("aws!@#")]
+            [InlineData(null)]
+            [InlineData("")]
+            public void WithoutThreeEndingNumbers_ThenThrowArgumentException(string value)
+            {
+                //write action (anonymous function that does thing)
+                Action createInvalidSku = () => new Sku(value);
+                createInvalidSku.Should().Throw<ArgumentException>();
+            }
+
         }
     }
 }
