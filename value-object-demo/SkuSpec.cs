@@ -36,6 +36,18 @@ namespace value_object_demo
                 sku.Value.Should().Be(value);
 
             }
+
+            [Theory]
+            [InlineData("ws256")]
+            [InlineData("wser256")]
+            [InlineData("145")]
+            [InlineData("!@#256")]
+            public void WithoutThreeStartLetters_ThenThrowArgumentException(string value)
+            {
+                //write action (anonymous function that does thing)
+                Action createInvalidSku = () => new Sku(value);
+                createInvalidSku.Should().Throw<ArgumentException>();
+            }
         }
     }
 }
