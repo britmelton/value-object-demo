@@ -11,5 +11,6 @@ namespace value_object_demo
             public override ValueObject CreateOther() => new Euros(5.00m);
         }
 
+        
     }
 }
