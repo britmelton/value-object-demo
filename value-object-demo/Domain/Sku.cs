@@ -6,18 +6,10 @@ using System.Threading.Tasks;
 
 namespace value_object_demo.Domain
 {
-    public class Sku : ValueObject
+    public class Sku : TinyType<string>
     {
-        public Sku(string value)
+        public Sku(string value) : base(value)
         {
-            Value = value;
-        }
-
-        public string Value { get; }
-
-        public override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
         }
     }
 }
